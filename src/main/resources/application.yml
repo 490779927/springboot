@@ -18,3 +18,10 @@ spring:
     port: 5672
     username: yang
     password: 123456
+logging:
+  level:
+    io:
+      swagger:
+        models:
+          parameters:
+            AbstractSerializableParameter: error

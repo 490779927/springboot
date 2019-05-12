@@ -12,7 +12,10 @@ public class LoginService {
     private AuthUserMapper authUserMapper;
 
     public AuthUser LoginStatus(){
-        AuthUser authUser = authUserMapper.selectOne();
-        return authUser;
+        return  authUserMapper.selectOne();
+    }
+
+    public AuthUser getUserById(int id){
+        return authUserMapper.selectById(id);
     }
 }
