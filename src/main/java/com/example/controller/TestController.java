@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.pojo.generate.AuthUser;
 import com.example.service.LoginService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,9 @@ public class TestController {
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @GetMapping("/test")
     public String login(){
@@ -50,5 +54,11 @@ public class TestController {
         session.setAttribute("uid",uid);
         redisTemplate.opsForValue().set("uid",uid);
         return session.getId();
+    }
+
+    @GetMapping("/rabbit")
+    public String rabbitTest(){
+        rabbitTemplate.convertAndSend("test","this is a test context");
+        return "OK";
     }
 }
