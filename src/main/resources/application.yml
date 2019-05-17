@@ -5,7 +5,7 @@ mybatis-plugs:
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/crk5?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
-    username: yang
+    username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
