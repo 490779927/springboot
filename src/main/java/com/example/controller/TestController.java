@@ -48,7 +48,7 @@ public class TestController {
     public AuthUser getUser() {
         AuthUser authUser = new AuthUser();
         authUser.setAuthUserId(1);
-        authUser.setAuthUserName("杨进");
+        authUser.setAuthUserName("小龙人");
         authUser.setAuthUserPwd("123123");
         System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
         Object uid = redisTemplate.opsForValue().get("uid");
