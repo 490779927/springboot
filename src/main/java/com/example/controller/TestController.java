@@ -1,7 +1,10 @@
 package com.example.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.enums.HttpStatusEnum;
 import com.example.pojo.generate.Title;
 import com.example.service.LoginService;
+import com.example.util.RespUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,16 +37,19 @@ public class TestController {
             response = String.class)
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "int")})
     @GetMapping("/test")
-    public String login(@RequestParam(value = "id",defaultValue = "0") int id) {
+    public RespUtil login(@RequestParam(value = "id", defaultValue = "0") int id) {
         Title title = loginService.getUserById(id);
         if (title == null) {
-            return "OK";
+            return new RespUtil(HttpStatusEnum.FAIL, "");
         }
-        return title.getTitleName()+" :" +title.getId();
+        String data = title.getTitleName() + " :" + title.getId();
+        JSONObject json = new JSONObject();
+        json.put("res", data);
+        return new RespUtil(HttpStatusEnum.SUCCESS, json);
     }
 
     @GetMapping("/redis")
-    public Title getUser() {
+    public RespUtil getUser() {
         Title title = new Title();
         title.setId(1);
         title.setTitleName("小龙人");
@@ -52,18 +58,22 @@ public class TestController {
         if (uid != null) {
             System.out.println(uid.toString());
         }
-        return title;
+        JSONObject json = new JSONObject();
+        json.put("res", title);
+        return new RespUtil(HttpStatusEnum.SUCCESS, json);
     }
 
     @GetMapping("/redis_res")
-    public String uid(HttpSession session) {
+    public RespUtil uid(HttpSession session) {
         UUID uid = (UUID) session.getAttribute("uid");
         if (uid == null) {
             uid = UUID.randomUUID();
         }
         session.setAttribute("uid", uid);
         redisTemplate.opsForValue().set("uid", uid);
-        return session.getId();
+        JSONObject json = new JSONObject();
+        json.put("res", session.getId());
+        return new RespUtil(HttpStatusEnum.SUCCESS, json);
     }
 
 
