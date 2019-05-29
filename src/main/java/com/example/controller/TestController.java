@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.config.ConstantProperties;
 import com.example.enums.HttpStatusEnum;
 import com.example.pojo.generate.Title;
 import com.example.service.LoginService;
@@ -31,6 +32,9 @@ public class TestController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private ConstantProperties constantProperties;
+
     @ApiOperation(
             value = "mybatis测试",
             notes = "测试",
@@ -45,6 +49,7 @@ public class TestController {
         String data = title.getTitleName() + " :" + title.getId();
         JSONObject json = new JSONObject();
         json.put("res", data);
+        json.put("test", constantProperties.getTestName());
         return new RespUtil(HttpStatusEnum.SUCCESS, json);
     }
 
