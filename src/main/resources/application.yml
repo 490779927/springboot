@@ -24,6 +24,12 @@ logging:
         models:
           parameters:
             AbstractSerializableParameter: error
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
 ---
 spring:
   profiles:

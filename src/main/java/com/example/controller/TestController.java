@@ -6,6 +6,8 @@ import com.example.enums.HttpStatusEnum;
 import com.example.pojo.generate.Title;
 import com.example.service.LoginService;
 import com.example.util.RespUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.UUID;
 
 @Api(value = "消息", protocols = "http")
@@ -49,6 +52,20 @@ public class TestController {
         String data = title.getTitleName() + " :" + title.getId();
         JSONObject json = new JSONObject();
         json.put("res", data);
+        json.put("test", constantProperties.getTestName());
+        return new RespUtil(HttpStatusEnum.SUCCESS, json);
+    }
+
+    @ApiOperation(
+            value = "全部user",
+            notes = "分页测试",
+            response = String.class)
+    @GetMapping("/getAll")
+    public RespUtil getAllUser() {
+        List<Title> allTitle = loginService.getAllUserInfo();
+        PageInfo<Title> pageInfo = new PageInfo<>(allTitle);
+        JSONObject json = new JSONObject();
+        json.put("res", pageInfo);
         json.put("test", constantProperties.getTestName());
         return new RespUtil(HttpStatusEnum.SUCCESS, json);
     }
